@@ -1,0 +1,29 @@
+{
+    "System": {
+        "state": 1,
+        "play": "",
+        "pause": "",
+        "next": "",
+        "previous": "",
+        "stop": "",
+        "mute": ""
+    },
+    "Aimp": {
+        "state": 0,
+        "play": "",
+        "pause": "",
+        "next": "",
+        "previous": "",
+        "stop": "",
+        "mute": ""
+    },
+    "Winamp": {
+        "state": 0,
+        "play": "",
+        "pause": "",
+        "next": "",
+        "previous": "",
+        "stop": "",
+        "mute": ""
+    }
+}
