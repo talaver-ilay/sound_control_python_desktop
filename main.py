@@ -15,7 +15,7 @@ def main():
     device = myhid.init_device(vid, pid) 
     myMedia = mediaInfo.media_info() # обект системных медиа данных
     # window.prog_name_combo.currentTextChanged.connect(lambda:{device.progNameUpdate(window.prog_name_combo.currentText()),print('Смена программы')})
-    device.connect_pack('connect')
+    #device.connect_pack('connect')
     while(True):
         
         progName = window.prog_name_combo.currentText()
