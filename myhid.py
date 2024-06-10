@@ -26,6 +26,7 @@ class CustomHIDDevice(hid.Device):
         self.mute = None
         
     def progNameUpdate(self,Name = 'System'): # сообщить устройству какая программа используеться
+        print(Name)
         if Name != None and Name != '':
             if Name != self.progName:
                 AllName = {'System':0x00,'Winamp':0x01,'Aimp':0x02}
@@ -36,6 +37,7 @@ class CustomHIDDevice(hid.Device):
     def send_pack(self,pack): # отправка посылка
         if pack is not None:
             try:
+                print(pack)
                 self.device.write(bytes(pack))
                 return 0
             except hid.HIDException as ex:
@@ -47,7 +49,6 @@ class CustomHIDDevice(hid.Device):
         new_pack = [0x03,0x01,new_value]
         if self.volume_packet != new_pack: # исключить повтор
             self.volume_packet = new_pack
-            print(self.volume_packet)
             return self.send_pack(self.volume_packet)
     
     def state_pack(self,new_state):
