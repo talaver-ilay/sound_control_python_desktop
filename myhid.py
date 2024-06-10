@@ -28,7 +28,7 @@ class CustomHIDDevice(hid.Device):
         
         
     def progName_pack(self,Name = 'System'): # сообщить устройству какая программа используеться
-        if Name != None and Name != '':
+        if Name != None and Name != '' and Name != 'Add custom..':
             dictionary_prog = {'System':0x00,'Winamp':0x01,'Aimp':0x02}
             pack = [0x03,0x04, dictionary_prog[Name]]
             if pack != self.progName_packet:

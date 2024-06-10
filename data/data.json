@@ -1,29 +1,35 @@
 {
     "System": {
         "state": 1,
-        "play": "",
-        "pause": "",
-        "next": "",
-        "previous": "",
-        "stop": "",
-        "mute": ""
+        "play": "0x10",
+        "pause": "0x11",
+        "next": "0x01",
+        "previous": "0x02",
+        "stop": "0x04",
+        "mute": "0x04",
+        "increment": "0x20",
+        "decrement": "0x80"
     },
     "Aimp": {
         "state": 0,
-        "play": "",
-        "pause": "",
-        "next": "",
-        "previous": "",
-        "stop": "",
-        "mute": ""
+        "play": "0x10",
+        "pause": "0x11",
+        "next": "0x01",
+        "previous": "0x02",
+        "stop": "0x04",
+        "mute": "0x04",
+        "increment": "0x20",
+        "decrement": "0x80"
     },
     "Winamp": {
         "state": 0,
-        "play": "",
-        "pause": "",
-        "next": "",
-        "previous": "",
-        "stop": "",
-        "mute": ""
+        "play": "x",
+        "pause": "c",
+        "next": "b",
+        "previous": "z",
+        "stop": "v",
+        "mute": "0x20",
+        "increment": "0x40",
+        "decrement": "0x80"
     }
 }
