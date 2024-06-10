@@ -7,7 +7,7 @@ import mediaInfo
 
 vid = 1155
 pid = 22352
-
+#
 def main():
     device = myhid.init_device(vid, pid) 
     myMedia = mediaInfo.media_info() # обект системных медиа данных
