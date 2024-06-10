@@ -22,34 +22,26 @@ class CustomHIDDevice(hid.Device):
         self.state_packet = []
         self.volume_packet = []
         self.title_packet = []
-        self.progName = None
-        self.mute = None
+        self.progName_packet = None
+        self.mute_packet = None
+        self.connect_packet = None
         
-    def progNameUpdate(self,Name = 'System'): # сообщить устройству какая программа используеться
+        
+    def progName_pack(self,Name = 'System'): # сообщить устройству какая программа используеться
         if Name != None and Name != '':
-            if Name != self.progName:
-                AllName = {'System':0x00,'Winamp':0x01,'Aimp':0x02}
-                pack = [0x03,0x04,AllName[Name]]
-                self.send_pack(pack)
-                self.progName = Name
-                
-    def send_pack(self,pack): # отправка посылка
-        if pack is not None:
-            try:
-                print(pack)
-                self.device.write(bytes(pack))
-                return 0
-            except hid.HIDException as ex:
-                self.device = init_device(self.vid, self.pid)
-                print("Reboot")
-                return 1
+            dictionary_prog = {'System':0x00,'Winamp':0x01,'Aimp':0x02}
+            pack = [0x03,0x04, dictionary_prog[Name]]
+            if pack != self.progName_packet:
+                self.progName_packet = pack
+                return self.progName_packet
+           
     
     def volume_pack(self,new_value): # отправить значение громкости в %
         new_pack = [0x03,0x01,new_value]
         if self.volume_packet != new_pack: # исключить повтор
             self.volume_packet = new_pack
-            return self.send_pack(self.volume_packet)
-    
+            return self.volume_packet
+      
     def state_pack(self,new_state):
         state_list = {'playing':[0x03,0x02,0x1],
                     'paused':[0x03,0x02,0x2],
@@ -57,19 +49,18 @@ class CustomHIDDevice(hid.Device):
                     'else':[0x03,0x02,0x00]}
         if self.state_packet != state_list[new_state]:# исключить повтор
             self.state_packet = state_list[new_state]
-            return self.send_pack(self.state_packet)
-    def mute_pack(self,new_state):
-        mute_list = {'mute':[0x03,0x05,0x01],
-                    'unmute':[0x03,0x05,0x00],}
+            return self.state_packet
         
-        if self.mute != mute_list[new_state]:# исключить повтор
-            self.mute = mute_list[new_state]
-            return self.send_pack(self.mute)
+    def mute_pack(self, new_state):
+        mute_list = {'mute':[0x03,0x05,0x01],'unmute':[0x03,0x05,0x00],} 
+        if self.mute_packet != mute_list[new_state]:# исключить повтор
+            self.mute_packet = mute_list[new_state]
+            return self.mute_packet
         
     def connect_pack(self,state):
         connect_list = {'connect':0x01,'disconnect':0x00}
-        pack = [0x03,0x06,connect_list[state]]
-        return self.send_pack(pack)
+        self.connect_packet = [0x03,0x06,connect_list[state]]
+        return self.connect_packet
     
     def title_pack(self,new_title):
         new_pack = [0x03,0x03]
@@ -85,8 +76,31 @@ class CustomHIDDevice(hid.Device):
                 new_pack[index+2] = mychar.ru[' ']     # если нет символа в таблице ставим пробел
         if self.title_packet != new_pack:              # исключить повтор
             self.title_packet = new_pack
-            return self.send_pack(self.title_packet)
-        
+            return self.title_packet
+
+    def send_pack(self,pack): # отправка посылка
+        if pack is not None:
+            try:
+                print(pack)
+                self.device.write(bytes(pack))
+                return 0
+            except hid.HIDException as ex:
+                self.device = init_device(self.vid, self.pid)
+                print("Reboot")
+                return 1
+    
+    def pack_update(self,dictionary_media):
+        self.dictionary_packet = {'name':self.progName_pack(dictionary_media['name']),
+                                  'volume':self.volume_pack(dictionary_media['volume']),
+                                  'state':self.state_pack(dictionary_media['state']),
+                                  'mute':self.mute_pack(dictionary_media['mute']),
+                                  'title':self.title_pack(dictionary_media['title']) }
+        return self.dictionary_packet
+    
+    def send_all(self):
+        for pack in self.dictionary_packet.values():
+            self.send_pack(pack)
+
 def init_device(vid,pid): # подключиться к устройству
     device = None
     while device is None:
@@ -94,8 +108,12 @@ def init_device(vid,pid): # подключиться к устройству
         try:
             device = CustomHIDDevice(vid, pid)
             print(device.product)
-            device.connect_pack('connect')
+            device.send_pack(device.connect_pack('connect'))
             return device
         except hid.HIDException as ex:
             print("None device...")
             time.sleep(1)
+
+def disc_device(vid,pid):
+    device = init_device(vid, pid)
+    device.send_pack(device.connect_pack('disconnect'))
