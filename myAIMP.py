@@ -1,6 +1,6 @@
 import pyaimp
 
-def get_aimp_title():
+def get_title():
     try:
         client = pyaimp.Client()
         aimp_title = client.get_current_track_info()
@@ -11,7 +11,7 @@ def get_aimp_title():
     except Exception as e:
         return 'Not connected!'
 
-def get_aimp_state():
+def get_state():
     try:
         client = pyaimp.Client()
         state = {'PlayBackState.Paused':'paused', # привести к стандартному виду

@@ -1,6 +1,6 @@
 {
     "System": {
-        "state": 0,
+        "state": 1,
         "play": "",
         "pause": "",
         "next": "",
@@ -9,7 +9,7 @@
         "mute": ""
     },
     "Aimp": {
-        "state": 1,
+        "state": 0,
         "play": "",
         "pause": "",
         "next": "",

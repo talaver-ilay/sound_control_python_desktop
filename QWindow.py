@@ -33,8 +33,8 @@ class MainWindow(QWidget):
         self.prog_name_combo.addItem(QIcon(QPixmap("data\\Icon\\system.png")),"System")
         self.prog_name_combo.addItem(QIcon(QPixmap("data\\Icon\\aimp.png")),  "Aimp")
         self.prog_name_combo.addItem(QIcon(QPixmap("data\\Icon\\winamp.png")),"Winamp")
-        self.prog_name_combo.setCurrentText(self.fconfig.finde_active_pog())
-        self.prog_name_combo.currentTextChanged.connect(lambda:{print('Смена программы')}) # lambda:{device.progNameUpdate(window.prog_name_combo.currentText())
+        self.prog_name_combo.setCurrentText(self.fconfig.finde_active_prog())
+        # self.prog_name_combo.currentTextChanged.connect(lambda:{print('Hallo')})
         
         layout.addWidget(self.prog_name_combo)
         self.setLayout(layout)

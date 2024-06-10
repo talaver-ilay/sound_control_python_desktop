@@ -26,7 +26,6 @@ class CustomHIDDevice(hid.Device):
         self.mute = None
         
     def progNameUpdate(self,Name = 'System'): # сообщить устройству какая программа используеться
-        print(Name)
         if Name != None and Name != '':
             if Name != self.progName:
                 AllName = {'System':0x00,'Winamp':0x01,'Aimp':0x02}
@@ -95,6 +94,7 @@ def init_device(vid,pid): # подключиться к устройству
         try:
             device = CustomHIDDevice(vid, pid)
             print(device.product)
+            device.connect_pack('connect')
             return device
         except hid.HIDException as ex:
             print("None device...")

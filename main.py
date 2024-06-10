@@ -11,33 +11,32 @@ def disc_device():
     device = myhid.init_device(vid, pid)
     device.connect_pack('disconnect')
 
+def send_media(device,state,title):
+    device.state_pack(state) 
+    device.title_pack(title)
+
+
 def main():
     device = myhid.init_device(vid, pid) 
     myMedia = mediaInfo.media_info() # обект системных медиа данных
-    device.progNameUpdate(window.prog_name_combo.currentText())
-    window.prog_name_combo.currentTextChanged.connect(lambda:{device.progNameUpdate(window.prog_name_combo.currentText())})
-    device.connect_pack('connect')
     
     while(True):
-        # device.progNameUpdate(progName) # сообщить устройству какие настройки управления применить
-        #progName = window.prog_name_combo.currentText()
+        device.progNameUpdate(window.prog_name_combo.currentText()) # сообщить устройству какие настройки управления применит
+
         device.volume_pack(myMedia.get_volume()) # новое значение громкости
         device.mute_pack(myMedia.get_mute_state())
+
         if device.progName == 'Aimp':
-            device.state_pack(myAIMP.get_aimp_state()) # состояние воспроизведения AIMP
-            device.title_pack(myAIMP.get_aimp_title()) # название песни AIMP
+            send_media(device,myAIMP.get_state(),myAIMP.get_title())
         elif device.progName == 'Winamp':
-            device.state_pack(myWinamp.get_state()) # состояние воспроизведения Winamp
-            device.title_pack(myWinamp.get_title()) # название песни Winamp
+            send_media(device, myWinamp.get_state(), myWinamp.get_title())
         else:
-            device.state_pack(myMedia.get_state()) # состояние воспроизведения системный
-            device.title_pack(myMedia.get_title()) # название песни
+            send_media(device, myMedia.get_state(), myMedia.get_title())
         try:
             device.get_indexed_string(2) # проверка подключения устройства
         except hid.HIDException as ex:
             device = myhid.init_device(vid, pid) # перезапуск
             myMedia = mediaInfo.media_info()
-        
         time.sleep(1/10)
 
 app = QApplication(sys.argv)
@@ -49,7 +48,6 @@ thread.finished.connect(thread.deleteLater)
 thread.start()
 app.aboutToQuit.connect(lambda:{print("Application is about to quit"),disc_device()})
 app.exec()
-
 
 
 
