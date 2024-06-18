@@ -36,7 +36,7 @@ class MainWindow(QWidget):
         self.prog_name_combo.addItem(QIcon(QPixmap("data\\Icon\\winamp.png")),"Winamp")
         self.prog_name_combo.setCurrentText(self.fconfig.finde_active_prog())
        
-        self.CustomButton = MyButton('Add custom..',clicked=lambda:{show_input_dialog(self)},state=True)
+        self.CustomButton = MyButton('Add custom..',clicked=show_input_dialog,state=True)
 
         layout.addWidget(self.prog_name_combo)
         layout.addWidget(self.CustomButton)
@@ -90,20 +90,20 @@ class InputDialog(QDialog):
 
         label = QLabel("Key 1")
         line = QLineEdit()
-        line.cursorPositionChanged.connect(lambda:keyscan.keyboard_scan())
+        # line.cursorPositionChanged.connect(lambda:keyscan.keyboard_scan()) # not work
         layout.addWidget(label)
         layout.addWidget(line)
 
         button_ok = QPushButton('Добавить')
         button_exit = QPushButton('Назад')
         button_exit.clicked.connect(self.accept)
-        button_ok.clicked.connect(lambda:{print("Add new custom!")})
+        button_ok.clicked.connect(lambda:print("Add new custom!"))
         layout.addWidget(button_ok)
         layout.addWidget(button_exit)
         self.setLayout(layout)
 
-def show_input_dialog(obj):
+def show_input_dialog():
     dialog = InputDialog()
     if dialog.exec() == QDialog.DialogCode.Accepted:
-        pass
+        print('Close dialog!')
         

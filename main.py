@@ -10,7 +10,7 @@ pid = 22352
 #
 def main():
     device = myhid.init_device(vid, pid) 
-    myMedia = mediaInfo.media_info() # обект системных медиа данных
+    myMedia = mediaInfo.media_info() # объект системных медиа данных
     while(True):
         dictionary_media = myMedia.data_update(window.prog_name_combo.currentText())
         device.pack_update(dictionary_media)
