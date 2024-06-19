@@ -29,7 +29,7 @@ window.show()
 thread = QWindow.WorkerThread(main) # отдельный поток
 thread.finished.connect(thread.deleteLater)
 thread.start()
-app.aboutToQuit.connect(lambda:{print("Application is about to quit"), myhid.disc_device(vid,pid)})
+app.aboutToQuit.connect(lambda:{print("Application is about to quit"), myhid.disc_device(vid,pid,True)})
 app.exec()
 
 

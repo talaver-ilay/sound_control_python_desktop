@@ -1,8 +1,10 @@
-from PyQt6.QtWidgets import QWidget,QComboBox,QVBoxLayout,QSystemTrayIcon,QMenu,QApplication,QPushButton,QDialog,QLabel,QLineEdit
+from PyQt6.QtWidgets import QWidget,QComboBox,QVBoxLayout,QSystemTrayIcon,QMenu,QApplication,QPushButton,QDialog,QLabel
 from PyQt6.QtGui import QIcon,QPixmap,QAction
 from PyQt6.QtCore import QThread, pyqtSignal
 import myJSON
 import keyscan
+import myDialog
+
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -12,6 +14,9 @@ class MainWindow(QWidget):
         icon = QIcon(QPixmap("data\\Icon\\icon.png")) # добавление иконки на титульную полоску
         self.setWindowIcon(icon)
         self.fconfig = myJSON.FileJson()
+        show_input_dialog()
+        self.close()
+
 
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QIcon("data\\Icon\\icon.png"))  
@@ -80,30 +85,8 @@ class MyButton(QPushButton):
         if clicked:
             self.clicked.connect(clicked)
 
-
-class InputDialog(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle('Custom')
-        self.resize(400,300)
-        layout = QVBoxLayout()
-
-        label = QLabel("Key 1")
-        line = QLineEdit()
-        # line.cursorPositionChanged.connect(lambda:keyscan.keyboard_scan()) # not work
-        layout.addWidget(label)
-        layout.addWidget(line)
-
-        button_ok = QPushButton('Добавить')
-        button_exit = QPushButton('Назад')
-        button_exit.clicked.connect(self.accept)
-        button_ok.clicked.connect(lambda:print("Add new custom!"))
-        layout.addWidget(button_ok)
-        layout.addWidget(button_exit)
-        self.setLayout(layout)
-
 def show_input_dialog():
-    dialog = InputDialog()
+    dialog = myDialog.InputDialog()
     if dialog.exec() == QDialog.DialogCode.Accepted:
         print('Close dialog!')
         

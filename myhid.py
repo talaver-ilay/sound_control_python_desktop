@@ -101,7 +101,7 @@ class CustomHIDDevice(hid.Device):
         for pack in self.dictionary_packet.values():
             self.send_pack(pack)
 
-def init_device(vid,pid): # подключиться к устройству
+def init_device(vid,pid,exit = False): # подключиться к устройству
     device = None
     while device is None:
         time.sleep(1)
@@ -113,7 +113,9 @@ def init_device(vid,pid): # подключиться к устройству
         except hid.HIDException as ex:
             print("None device...")
             time.sleep(1)
+            if exit: return
 
-def disc_device(vid,pid):
-    device = init_device(vid, pid)
-    device.send_pack(device.connect_pack('disconnect'))
+def disc_device(vid,pid,exit = False):
+    device = init_device(vid, pid, exit)
+    if not exit:
+        device.send_pack(device.connect_pack('disconnect'))
