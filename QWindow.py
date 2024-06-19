@@ -14,8 +14,8 @@ class MainWindow(QWidget):
         icon = QIcon(QPixmap("data\\Icon\\icon.png")) # добавление иконки на титульную полоску
         self.setWindowIcon(icon)
         self.fconfig = myJSON.FileJson()
-        show_input_dialog()
-        self.close()
+        # show_input_dialog()
+        # self.close()
 
 
         self.tray_icon = QSystemTrayIcon(self)

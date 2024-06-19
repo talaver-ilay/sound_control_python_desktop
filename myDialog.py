@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QDialog,QPushButton
-from PyQt6.QtGui import QIcon,QPixmap,QPalette,QBrush,QFont
+from PyQt6.QtGui import QIcon,QPixmap,QPalette,QBrush,QFont,QColor
 from PyQt6.QtCore import Qt
 import myQLineEdit
 
@@ -31,15 +31,15 @@ class InputDialog(QDialog):
         self.key4 = myQLineEdit.newQLineEdit(self,font,"Key4",50,round(xline*1.78),yline)
         self.key5 = myQLineEdit.newQLineEdit(self,font,"Key5",50,round(xline*2.56),yline)
         yline = 340
-        self.key6 = myQLineEdit.newQLineEdit(self,font,"Key6",50,round(xline),yline)
+        self.key6 = myQLineEdit.newQLineEdit(self,font,"Key6",50,xline,yline)
         self.key7 = myQLineEdit.newQLineEdit(self,font,"Key7",50,round(xline*1.78),yline)
         self.key8 = myQLineEdit.newQLineEdit(self,font,"Key8",50,round(xline*2.56),yline)
 
-        self.new_name = myQLineEdit.newQLineEdit(self,font,"castom name..",50,xline+40,yline+100,200)
+        self.new_name = myQLineEdit.newQLineEdit(self,font,"castom name..",50,xline-50,yline+100,200,25)
 
         self.button_ok = QPushButton('Добавить',self)
         self.button_exit = QPushButton('Назад',self)
         self.button_exit.clicked.connect(self.accept)
         self.button_ok.clicked.connect(lambda:print("Add new custom!"))
         self.button_ok.move(xline+160,yline+100)
-        self.button_exit.move(xline+300,yline+100)
+        self.button_exit.move(xline+250,yline+100)
